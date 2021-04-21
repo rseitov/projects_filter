@@ -1,0 +1,104 @@
+{% extends "admin/change_list_custom.html" %}
+{% load i18n admin_urls static admin_list %}
+{% block title %}{{ title }} | {{ site_title|default:_('Каталог событий') }}{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Каталог событий') }}</a></h1>
+{% endblock %}
+{% block content_title %}
+    <h1>Список ресурсов</h1>
+{% endblock %}
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% translate 'Home' %}>{% translate 'Tnpm' %}>{% translate ' Tnpm trap lookup ruless' %}></a>› lookup rule #{{ values.id}} preview
+</div>
+{% endblock %}
+{% endif %}
+
+{% block result_list %}
+
+    {% csrf_token %}
+
+    <div class="results">
+        <table>
+            <thead>
+            <tr>
+                <th>
+                    <div class="text">
+                        <a href="#">idx_ind</a>
+                    </div>
+                </th>
+                <th>
+                    <div class="text">
+                        <a href="#">idx_host</a>
+                    </div>
+                </th>
+                <th>
+                    <div class="text">
+                        <a href="#">str_state</a>
+                    </div>
+                </th>
+                <th>
+                    <div class="text">
+                        <a href="#">idx_formula</a>
+                    </div>
+                </th>
+                <th>
+                    <div class="text">
+                        <a href="#">str_name</a>
+                    </div>
+                </th>
+
+            </tr>
+            </thead>
+
+            {#{% for value in values.se_desc %}#}
+            {% for value in values.contacts %}
+                <tbody>
+
+                <tr class="{% cycle 'row1' 'row2' %}">
+
+                    <td>  {{ value.idx_ind }} </td>
+                    <td>  {{ value.idx_host_id }} </td>
+                    <td>   {{ value.str_state }} </td>
+                    <td>  {{ value.str_origin }} </td>
+                    <td>  {{ value.str_name }} </td>
+
+
+                </tr>
+
+                </tbody>
+
+            {% endfor %}
+
+
+        </table>
+    </div>
+    <br>
+
+{% endblock %}
+
+
+
+{% block pagination %}
+
+
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if values.contacts.has_previous %}
+            <a href="?page={{ values.contacts.previous_page_number }}">Предыдущая</a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{ values.contacts.number }} из {{ values.contacts.paginator.num_pages }}.
+        </span>
+
+        {% if values.contacts.has_next %}
+            <a href="?page={{ values.contacts.next_page_number }}">Следующая</a>
+        {% endif %}
+    </span>
+    </div>
+
+{% endblock %}
